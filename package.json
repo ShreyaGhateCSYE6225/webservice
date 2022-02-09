@@ -1,0 +1,22 @@
+{
+  "name": "webapp-assignment1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha ./test/* --exit",
+    "dev": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.2.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
+  }
+}
