@@ -1,4 +1,4 @@
 # Assignment - 1 Config Details
 
-Install Node Packages:
+Install Node Packages using the command below:
 npm install
