@@ -15,7 +15,7 @@ node app.js #to run the api server
 npm test #to run tests
 
 Check with Postman or CURL:
-# API Endpoint : http://127.0.0.1:8000/healthz
+# API Endpoint with GET: http://127.0.0.1:8000/healthz
 ```
 
 ## Structure
