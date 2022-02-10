@@ -13,13 +13,13 @@ process.env.NODE_ENV = 'test';
       });
     });
 
-    it('Should check "message" that equals "Hello World"', function(done) {
+    it('Should check "message" that equals "Hello from Healthz"', function(done) {
       request(app).get('/healthz').end(function(err, res) {
         expect(res.body)
           .to.be.an('object')
           .with.property('message')
           .that.is.a('string')
-          .that.equal('Hello World');
+          .that.equal('Hello from Healthz');
         done();
       });
     });
