@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-
+    name: run checks
     runs-on: ubuntu-latest
 
     strategy:
