@@ -19,7 +19,7 @@ process.env.NODE_ENV = 'test';
           .to.be.an('object')
           .with.property('message')
           .that.is.a('string')
-          .that.equal('Hi from Healthz');
+          .that.equal('Hello from Healthz');
         done();
       });
     });
