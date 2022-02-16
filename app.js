@@ -30,3 +30,4 @@ require("./app/routes/routes")(app);
 app.listen(port,()=> {
 console.log('listening on port 8080');
 })
+module.exports = app
