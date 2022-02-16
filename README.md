@@ -2,7 +2,7 @@
 A RESTful API example written using Node.JS
 
 ## Prerequisites for building and deploying your application locally:
-Download and Configure Node, NPM, Visual Studio, Postman, PostgreSQL
+Download and Configure Node, NPM, Visual Studio, Postman, PostgreSQL with Sequelize
 
 ## Installation & Run
 ```bash
