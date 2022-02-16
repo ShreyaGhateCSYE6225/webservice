@@ -59,11 +59,17 @@ exports.create = (req, res) => {
                 res.status(201).send(dataNew);
             })
             .catch(err => {
-              console.log(err)
+              console.log(err.message)
                 // res.status(400).send();
+                if (err.message == "Validation error: Username should be a valid email address!") {
                 res.status(400).send({
-                  message : "User already exists!"
+                  message : "Enter a valid email address for username"
               });
+            } else {
+              res.status(400).send({
+                message : "User already exists or some other error occurred"
+            });
+            }
          });
         }
     } )

@@ -26,7 +26,7 @@ POST: http://127.0.0.1:8080/v1/user
 PUT: http://127.0.0.1:8080/v1/user/self # requires authentication
 ```
 
-## Structure
+<!-- ## Structure
 ```
 ├── .github
 │   └── workflows
@@ -34,7 +34,7 @@ PUT: http://127.0.0.1:8080/v1/user/self # requires authentication
 ├── test
 │   └── test.js        // Unit Tests
 └── app.js            // REST API /healthz config
-```
+``` -->
 
 ## API
 
