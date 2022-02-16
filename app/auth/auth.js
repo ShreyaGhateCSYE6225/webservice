@@ -48,23 +48,26 @@ User.findOne({
     })
     }
     else if (req.method === 'PUT') {
+        console.log(req.body);
       bcrypt.hash(req.body.password, 10, (err, hash) => {
         if(err){
+          console.log("error", err)
           res.status(400).send();
         }
         else{
           const id = result.id;
-      
+          console.log("id", id)
+
       if (req.body.username) {
-        res.status(400).send();
+        res.status(400).send("username cannot be updated");
         return;
       }
       if (req.body.account_created) {
-        res.status(400).send();
+        res.status(400).send("account_created field cannot be updated");
         return;
       }
       if (req.body.account_updated) {
-        res.status(400).send();
+        res.status(400).send("account_updated field cannot be updated");
         return;
       }
       const userUpdate = {
@@ -78,8 +81,11 @@ User.findOne({
           id: result.id
         } 
       }).then(data => {
-        res.status(204).send()
-      })
+          console.log("data", data);
+          res.status(204).json({
+            message: "User was updated successfully!"
+         });      
+        })
         }
       })
     }

@@ -108,7 +108,9 @@ exports.findOne = (req, res) => {
 // Update a User by the id in the request
 exports.update = (req, res) => {  
   bcrypt.hash(req.body.password, 10, (err, hash) => {
+    console.log("request", req)
     if(err){
+      console.log(err);
       res.status(400).json({
         message : "Provide the user ID to update"
       });
@@ -120,7 +122,7 @@ exports.update = (req, res) => {
     }
     else{
       const id = req.params.id;
-      
+      console.log("id", id)
       if (req.body.username) {
         res.status(400).send({
           message: "Oops! Username cannot be updated"
@@ -149,13 +151,14 @@ exports.update = (req, res) => {
         where: { id: id}
        })
       .then(num => {
+        console.log("num", num)
         if (num == 1) {
           res.status(200).send({
             message: "User was updated successfully!"
          });
         } else {
           res.status(400).send({
-            message: `Cannot update User with id=${id}. Maybe User was not found`
+            message: "Cannot update User with id=${id}. Maybe User was not found"
           });
         }
       })
