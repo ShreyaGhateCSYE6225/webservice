@@ -2,7 +2,7 @@
 A RESTful API example written using Node.JS
 
 ## Prerequisites for building and deploying your application locally:
-Download Node, NPM, Visual Studio, Postman
+Download and Configure Node, NPM, Visual Studio, Postman, PostgreSQL
 
 ## Installation & Run
 ```bash
@@ -14,11 +14,16 @@ git clone git@github.com:ShreyaGhateCSYE6225/webservice.git
 # Build and Run
 cd webservice 
 npm install # get node_modules locally
-node app.js # or npm run dev - to start the application server
+nodemon app.js # or npm run dev - to start the application server
 npm test # to run tests
 
 Check with Postman or Restlet or some other REST client :
-# API Endpoint with GET: http://127.0.0.1:8000/healthz or http://localhost:8000/healthz
+# API Endpoints 
+GET: http://127.0.0.1:8080/healthz
+GET: http://127.0.0.1:8080/v1
+GET: http://127.0.0.1:8080/v1/user/self # requires authentication
+POST: http://127.0.0.1:8080/v1/user
+PUT: http://127.0.0.1:8080/v1/user/self # requires authentication
 ```
 
 ## Structure
@@ -35,5 +40,14 @@ Check with Postman or Restlet or some other REST client :
 
 #### /healthz
 * `GET` : Get all /healthz with the required HTTP Status Code
+#### /v1
+* `GET` : Get user database info with the required HTTP Status Code
 
+#### /v1/user/self
+* `GET` : Get authenticated user details with the required HTTP Status Code
 
+#### /v1/user
+* `POST` : Create a new user with the required HTTP Status Code
+
+#### /v1/user/self
+* `PUT` : Update an existing user with the required HTTP Status Code
