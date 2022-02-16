@@ -1,13 +1,32 @@
-const express = require('express');
-const port = process.env.port || 8000;
+const express = require("express");
+const bodyParser = require("body-parser");
+const port = process.env.port || 8080;
+const cors = require("cors");
+const auth = require("./app/auth/auth")
 const app = express();
+
+var corsOptions = {
+    origin : "http://localhost:8080"
+};
+
+app.use(cors(corsOptions));
+
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true}));
+const db = require("./app/models");
+db.sequelize.sync();
 
 app.get("/healthz", (req, res) => {
     res.json({ message: "Hello from Healthz" });
   });
 
-app.listen(port,()=> {
-console.log('listening on port 8000');
+app.get("/v1", (req, res) => {
+    res.json({message: "Hello, this is users database"});
 })
-module.exports = app
 
+require("./app/routes/routes")(app);
+
+app.listen(port,()=> {
+console.log('listening on port 8080');
+})

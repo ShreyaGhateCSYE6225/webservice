@@ -35,3 +35,5 @@ Check with Postman or Restlet or some other REST client :
 
 #### /healthz
 * `GET` : Get all /healthz with the required HTTP Status Code
+
+
