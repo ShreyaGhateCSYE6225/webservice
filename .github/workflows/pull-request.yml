@@ -1,0 +1,41 @@
+---
+name: Packer Build on Pull Requests
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  packer:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Validate Packer Template
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: "-syntax-only -var-file=vars.json" # only validate syntax
+        target: ami.json
+      env:  
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        PACKER_LOG: 1 # enable debug log for packer
+    - name: zip files
+      run: |
+      zip -r webservice.zip ./
+
+    - name: Build Custom AMI GitHub actions
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: build
+        arguments: "-var-file=vars.json"
+        target: ami.json
+      env:  
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        PACKER_LOG: 1
