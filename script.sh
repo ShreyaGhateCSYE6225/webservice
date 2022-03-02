@@ -1,18 +1,9 @@
 #!/bin/bash
 sleep 5
-# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-# .~/.nvm/nvm.sh 
-# nvm install node 
-sudo yum install -y npm
-# sudo yum install -y node
+sudo yum install -y npm@8.5.2
 curl --silent --location https://rpm.nodesource.com/setup_17.x | sudo bash -
 sudo yum install -y nodejs
-# curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-# sudo yum install -y pm2@latest 
-# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-# source ~/.bash_profile
 sudo npm install pm2 -g # To install pm2 globally so you can manage multiple node processors.
-# node -e \"console.log\('Running Node.js ' + process.version\)\"
 sudo yum -y update
 sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
 [pgdg13]
@@ -23,17 +14,13 @@ gpgcheck=0
 EOF
 sudo yum install postgresql13 postgresql13-server -y
 sudo /usr/pgsql-13/bin/postgresql-13-setup initdb
-# sudo service postgresql start
 sudo systemctl enable --now postgresql-13
 systemctl status postgresql-13
-# psql -c "ALTER USER shreya PASSWORD 'password';"
-sudo -u postgres bash -c "psql -c \"ALTER USER postgres with PASSWORD 'password';\""
+
+sudo -u postgres bash -c "psql -c \"CREATE USER shreya with PASSWORD 'password';\""
+sudo -u postgres bash -c "psql -c \"ALTER USER shreya with PASSWORD 'password';\""
 
 sudo pm2 start app.js
 sudo pm2 startup systemd
 sudo pm2 save
 sudo pm2 list
-# sleep 10
-# cd ~/webservice || exit
-# sudo ls -a 
-# npm run dev
