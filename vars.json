@@ -1,0 +1,10 @@
+{
+    "aws_access_key_id": "AKIATLBSIKOQD4DSYNG7",
+    "aws_secret_access_key": "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",
+    "aws_region": "us-east-1",
+    "source_ami": "ami-033b95fb8079dc481",
+    "ssh_username": "ec2-user",
+    "instance_type": "t2.micro",
+    "prod_id": "282741675015",
+    "vpc_id": "vpc-05af56c3563fe922e"
+}
