@@ -17,14 +17,29 @@
             "ssh_username": "{{user `ssh_username`}}",
             "ami_name": "csye6225_{{timestamp}}",
             "ami_users": ["{{user `prod_id`}}"],
-            "ami_description": "Amazon Linux AMI for CSYE 6225"
-            
+            "ami_description": "Amazon Linux AMI for CSYE 6225"     
         }
     ],
     "provisioners": [
         {
+            "type": "file",
+            "source": "webservice.zip",
+            "destination": "~/"
+        },
+        {
             "type": "shell",
-            "script": "script.sh"
+            "inline": [
+                "cd ~",
+                "sudo mkdir -p webservice",
+                "sudo chmod 755 webservice",
+                "sudo unzip webservice.zip -d ~/webservice"
+                ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "script.sh"
+                ]
         }
     ]
 }

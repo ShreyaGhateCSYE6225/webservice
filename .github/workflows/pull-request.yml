@@ -11,31 +11,54 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Validate Packer Template
+    - uses: actions/checkout@v2
+    - name: Use Node.js '16'
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'npm'
+    - name: Install Node Packages
+      run: npm ci
+    - name: Zip files
+      run: zip -r webservice.zip .
+    - name: Packer Init
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: init
+        target: ami.json
+    - name: Packer Validate
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
-        arguments: "-syntax-only -var-file=vars.json" # only validate syntax
         target: ami.json
-      env:  
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        PACKER_LOG: 1 # enable debug log for packer
-    - name: zip files
-      run: |
-      zip -r webservice.zip ./
-
-    - name: Build Custom AMI GitHub actions
+    - name: Packer Build
       uses: hashicorp/packer-github-actions@master
       with:
         command: build
-        arguments: "-var-file=vars.json"
+        arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         target: ami.json
-      env:  
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        PACKER_LOG: 1
+
+    # - name: Validate Packer Template
+    #   uses: hashicorp/packer-github-actions@master
+    #   with:
+    #     command: validate
+    #     arguments: "-syntax-only -var-file=vars.json" # only validate syntax
+    #     target: ami.json
+    #   env:  
+    #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     PACKER_LOG: 1 # enable debug log for packer
+    # - name: zip files
+    #   run: |
+    #   zip -r webservice.zip ./
+
+    # - name: Build Custom AMI GitHub actions
+    #   uses: hashicorp/packer-github-actions@master
+    #   with:
+    #     command: build
+    #     arguments: "-var-file=vars.json"
+    #     target: ami.json
+    #   env:  
+    #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     PACKER_LOG: 1
