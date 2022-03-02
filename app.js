@@ -15,6 +15,9 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true}));
 const db = require("./app/models");
+//create db if it does not exist
+// const connection = mysql.createConnection({ host: `${dbConfig.HOST}`, user: `${dbConfig.USER}`, password: `${dbConfig.PASSWORD}` });
+// connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbConfig.DB}\`;`);
 db.sequelize.sync();
 
 app.get("/healthz", (req, res) => {
