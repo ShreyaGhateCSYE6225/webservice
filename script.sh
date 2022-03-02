@@ -3,12 +3,15 @@ sleep 5
 # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 # .~/.nvm/nvm.sh 
 # nvm install node 
-# sudo yum install -y npm
+sudo yum install -y npm
 # sudo yum install -y node
 curl --silent --location https://rpm.nodesource.com/setup_17.x | sudo bash -
 sudo yum install -y nodejs
 # curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo yum install -y pm2@latest 
+# sudo yum install -y pm2@latest 
+# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+# source ~/.bash_profile
+sudo npm install pm2 -g # To install pm2 globally so you can manage multiple node processors.
 # node -e \"console.log\('Running Node.js ' + process.version\)\"
 sudo yum -y update
 sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
