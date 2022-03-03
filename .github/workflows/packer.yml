@@ -2,9 +2,8 @@
 name: Packer Build on Pull Requests
 
 on:
-  pull_request:
-    branches:
-    - main
+  push:
+    branches: [ main ]
 
 jobs:
   packer:
@@ -20,9 +19,7 @@ jobs:
         cache: 'npm'
     - name: Install Node Packages
       run: npm ci
-    - run: npm run build --if-present
-    - name: Running Unit Test
-      run: npm test
+
     - name: Zip files
       run: zip -r webservice.zip .
     - name: Packer Init
@@ -34,4 +31,10 @@ jobs:
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
+        target: ami.pkr.hcl
+    - name: Packer Build
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: build
+        arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         target: ami.pkr.hcl
