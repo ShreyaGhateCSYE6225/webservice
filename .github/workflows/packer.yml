@@ -1,5 +1,5 @@
 ---
-name: Packer Build on Pull Requests
+name: Packer Build
 
 on:
   push:
