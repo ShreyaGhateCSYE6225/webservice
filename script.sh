@@ -19,6 +19,7 @@ systemctl status postgresql-13
 
 sudo -u postgres bash -c "psql -c \"CREATE USER shreya with PASSWORD 'password';\""
 sudo -u postgres bash -c "psql -c \"ALTER USER shreya with PASSWORD 'password';\""
+sudo -u postgres bash -c "psql -c \"CREATE DATABASE webapp;\""
 
 sudo pm2 start app.js
 sudo pm2 startup systemd
