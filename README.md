@@ -16,6 +16,8 @@ cd webservice
 npm install # get node_modules locally
 nodemon app.js # or npm run dev - to start the application server
 npm test # to run tests
+OR
+Run the Packer template to create an AMI and use that AMI to create an EC2 Instance
 
 Check with Postman or Restlet or some other REST client :
 # API Endpoints 
@@ -30,7 +32,7 @@ PUT: http://127.0.0.1:8080/v1/user/self # requires authentication
 ```
 ├── .github
 │   └── workflows
-│       └── node.js.     // GitHub Actions Workflow
+│       └── packer     // GitHub Actions Workflow
 ├── test
 │   └── test.js        // Unit Tests
 └── app.js            // REST API /healthz config
