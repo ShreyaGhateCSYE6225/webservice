@@ -2,6 +2,9 @@
 name: Packer Build on Pull Requests
 
 on:
+  pull_request:
+    branches:
+    - main
   push:
     branches: [ main ]
 
@@ -19,6 +22,9 @@ jobs:
         cache: 'npm'
     - name: Install Node Packages
       run: npm ci
+    - run: npm run build --if-present
+    - name: Running Unit Test
+      run: npm test
     - name: Zip files
       run: zip -r webservice.zip .
     - name: Packer Init
@@ -37,28 +43,3 @@ jobs:
         command: build
         arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         target: ami.pkr.hcl
-
-    # - name: Validate Packer Template
-    #   uses: hashicorp/packer-github-actions@master
-    #   with:
-    #     command: validate
-    #     arguments: "-syntax-only -var-file=vars.json" # only validate syntax
-    #     target: ami.json
-    #   env:  
-    #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     PACKER_LOG: 1 # enable debug log for packer
-    # - name: zip files
-    #   run: |
-    #   zip -r webservice.zip ./
-
-    # - name: Build Custom AMI GitHub actions
-    #   uses: hashicorp/packer-github-actions@master
-    #   with:
-    #     command: build
-    #     arguments: "-var-file=vars.json"
-    #     target: ami.json
-    #   env:  
-    #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     PACKER_LOG: 1
