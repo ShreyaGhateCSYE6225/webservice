@@ -1,20 +1,17 @@
 require('dotenv').config()
+const Sequelize = require("sequelize");
 
 module.exports = {
     HOST: process.env.DB_CONNECTION,
     USER: process.env.DB_USERNAME,
     PASSWORD: process.env.DB_PASSWORD,
     DB: process.env.DB_NAME,
-   
     dialect: "postgres",
-//     logging: console.log,
-//   maxConcurrentQueries: 100,
-//   ssl: 'Amazon RDS',
     pool: {
-        max: 50,
+        max: 5,
         min: 0,
         acquire: 30000,
-        idle: 20000
+        idle: 10000
     },
     dialectOptions: {
         useUTC: false, 

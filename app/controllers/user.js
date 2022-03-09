@@ -192,10 +192,9 @@ exports.update = (req, res) => {
 //Adding Profile Picture
 exports.createImage = async (req, res, location) => {
   // await User.upload(req.body);
-  // console.log(req.body)
+  console.log("globalusername", global.username)
   const user = await this.findUser(global.username)
   const imageData = ( {
-    
     file_name: req.file_name,
     id: user.id,
     url: location,
@@ -203,7 +202,7 @@ exports.createImage = async (req, res, location) => {
     user_id: user.id,
 
   })
-  // console.log(imageData)
+  console.log("imagedata", imageData)
   const imageExists = await this.findImageByUserID(user.id)
   if(imageExists){
     await Image.update(imageData,{
@@ -224,20 +223,20 @@ exports.upload = async (req, res) => {
         limit: "3mb",
         type: ["image/*"],
     })
-    console.log(req.body)
+    console.log("uploadreq", req.body)
     if(!req.body){
       return res.status(400).send();
     }
   try {
     const file = req.file
     const userData = await this.findUser(global.username)
-    
-      const result = await uploadFileToS3(req, res,userData);
+    console.log("userData", userData)
+    const result = await uploadFileToS3(req, res, userData);
     const imageObject = {
       file_name: result.Key,
       url: result.Location
     }
-    console.log("inside upload",req.body)
+    console.log("inside upload",imageObject)
     req.file_name = result.Key
     const location = result.Location
     const imageInfo = await this.createImage(req, res, location)
@@ -245,7 +244,6 @@ exports.upload = async (req, res) => {
     res.status(201).send({
       message: "Profile pic added",
       imageInfo
-      
     })
     
   } catch (err) {
