@@ -2,7 +2,7 @@ module.exports = app => {
     const user = require("../controllers/user.js");
     const auth = require("../auth/auth")
     const bodyParser = require('body-parser')
-    const uploadFileToS3 = require("../../s3")
+    const uploadFileToS3 = require("../../S3Config")
     var router = require("express").Router();
 
     // Retrieve an Authenticated User
