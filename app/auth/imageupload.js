@@ -22,7 +22,7 @@ const uploadFile = (req, res, file) => {
       message: err
     }
     else{
-      console.log(JSON.parse(data))
+      console.log("uploadfileparsedata", JSON.parse(data))
     }
   })
 }

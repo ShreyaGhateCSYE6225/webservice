@@ -1,4 +1,5 @@
 require('dotenv').config()
+const Sequelize = require("sequelize");
 
 module.exports = {
     HOST: process.env.DB_CONNECTION,
@@ -10,7 +11,7 @@ module.exports = {
         max: 5,
         min: 0,
         acquire: 30000,
-        idle: 20000
+        idle: 10000
     },
     dialectOptions: {
         useUTC: false, 
