@@ -1,14 +1,16 @@
+require('dotenv').config()
+
 module.exports = {
-    host : "localhost",
-    user: "shreya",
-    password: "password",
-    db: "webapp",
+    HOST: process.env.DB_CONNECTION,
+    USER: process.env.DB_USERNAME,
+    PASSWORD: process.env.DB_PASSWORD,
+    DB: process.env.DB_NAME,
     dialect: "postgres",
     pool: {
         max: 5,
         min: 0,
         acquire: 30000,
-        idle: 10000
+        idle: 20000
     },
     dialectOptions: {
         useUTC: false, 

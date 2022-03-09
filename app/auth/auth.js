@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const db = require("../models");
+const multer = require('multer');
 const User = db.users;
+const Image = db.images;
 
 module.exports = (req, res, next) => {
   var authHeader = req.headers.authorization;
