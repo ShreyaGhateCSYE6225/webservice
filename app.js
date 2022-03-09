@@ -5,11 +5,16 @@ const cors = require("cors");
 const auth = require("./app/auth/auth")
 const app = express();
 
+global.__basedir = __dirname;
+
 var corsOptions = {
     origin : "http://localhost:8080"
 };
 
 app.use(cors(corsOptions));
+app.use(
+    bodyParser.raw({ limit: '50mb', type: ['image/*'] })
+);
 
 app.use(bodyParser.json());
 
