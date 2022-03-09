@@ -15,5 +15,12 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.users = require("./user")(sequelize, Sequelize);
 db.images = require("./image")(sequelize, Sequelize);
-
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 module.exports = db;

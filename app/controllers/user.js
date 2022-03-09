@@ -76,6 +76,7 @@ exports.create = (req, res) => {
                   message : "Enter a valid email address for username"
               });
             } else {
+              console.log(err.message)
               res.status(400).send({
                 message : "User already exists or some other error occurred"
             });

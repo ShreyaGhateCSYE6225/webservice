@@ -26,8 +26,8 @@ exports.uploadFileToS3 =  (req, res, userData) => {
       }
      return s3.upload(uploadParams).promise()
       
- 
     }
+
 exports.deleteFileFromS3 = (req,res,result) => {
   console.log("result", result)
   const params1 = {
