@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(dbconfigCreds.DB, dbconfigCreds.USER, dbconfigCreds.PASSWORD, {
     host: dbconfigCreds.HOST,
-    port: 5432,
+    port: 5433,
     dialect: dbconfigCreds.dialect,
     operatorAliases: false
 });

@@ -117,7 +117,8 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving user with id:" + id
+        error: err,
+        message: "Error retrieving user with id=" + id
       });
     });
 };
