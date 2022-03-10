@@ -6,7 +6,7 @@ module.exports = app => {
     var router = require("express").Router();
 
     // Retrieve an Authenticated User
-    router.get("/self", auth, user.fetchUserData);
+    router.get("/self", auth, user.getUser);
 
     // Update an Authenticated User
     router.put("/self", auth, user.update);
@@ -21,10 +21,10 @@ module.exports = app => {
     router.post("/self/pic", auth, user.upload);
    
     // Retrieve Profile Picture of an Authenticated User
-    router.get("/self/pic", auth, user.fetchImageByUsername);
+    router.get("/self/pic", auth, user.getProfilePicture);
 
     //Delete Profile Picture of an Authenticated User
-    router.delete("/self/pic",auth,user.deleteImageByUserId);
+    router.delete("/self/pic",auth,user.deleteProfilePic);
 
     app.use("/v1/user", router);
   };

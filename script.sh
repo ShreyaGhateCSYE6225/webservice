@@ -15,7 +15,11 @@ EOF
 sudo yum install postgresql13 -y
 
 cd webservice/ || exit
+# sudo pm2 start app.js
+# sudo pm2 startup systemd
+# sudo pm2 save
+# sudo pm2 list
+
+sudo pm2 startup systemd --service-name app
 sudo pm2 start app.js
-sudo pm2 startup systemd
 sudo pm2 save
-sudo pm2 list

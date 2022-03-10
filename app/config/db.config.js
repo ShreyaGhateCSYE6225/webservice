@@ -9,10 +9,10 @@ module.exports = {
     PORT: "5432",
     dialect: "postgres",
     pool: {
-        max: 50,
+        max: 5,
         min: 0,
         acquire: 30000,
-        idle: 20000
+        idle: 10000
     },
     dialectOptions: {
         useUTC: false, 
@@ -21,4 +21,5 @@ module.exports = {
     },
     timezone: '-05:00'
     }
+
 
