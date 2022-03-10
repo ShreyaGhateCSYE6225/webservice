@@ -41,13 +41,14 @@ module.exports = (req, res, next) => {
       console.log(result.username);
       if (req.method === 'GET') {
         global.username=result.username;
-        next();
-        // res.status(200).send({id:result.id,
-        //   first_name :result.first_name,
-        //   last_name:result.last_name,
-        //   username:result.username,
-        //   account_created: result.account_created,
-        //   account_updated: result.account_updated})
+        // next();
+        res.status(200).send({
+          id:result.id,
+          first_name :result.first_name,
+          last_name:result.last_name,
+          username:result.username,
+          account_created: result.account_created,
+          account_updated: result.account_updated})
       }
       else if(req.method === 'POST'){
         global.username=result.username;
