@@ -189,12 +189,160 @@ exports.update = (req, res) => {
   
 };
 
-//Adding Profile Picture
+// //Adding Profile Picture
+// exports.createImage = async (req, res, location) => {
+//   // await User.upload(req.body);
+//   console.log("globalusername", global.username)
+//   const user = await this.findUser(global.username)
+//   const imageData = ( {
+//     file_name: req.file_name,
+//     id: user.id,
+//     url: location,
+//     upload_date: new Date(),
+//     user_id: user.id,
+
+//   })
+//   console.log("imagedata", imageData)
+//   const imageExists = await this.findImageByUserID(user.id)
+//   if(imageExists){
+//     await Image.update(imageData,{
+//       where:{
+//         id:imageExists.id
+//       }
+//     })
+//   }else{
+//     await Image.create(imageData)
+//   }
+//   return imageData
+// }
+
+
+// // Uploading Profile Picture
+// exports.upload = async (req, res) => {
+//   bodyParser.raw({
+//         limit: "3mb",
+//         type: ["image/*"],
+//     })
+//     console.log("uploadreq", req.body)
+//     if(!req.body){
+//       return res.status(400).send();
+//     }
+//   try {
+//     const file = req.file
+//     const userData = await this.findUser(global.username)
+//     console.log("userData", userData)
+//     const result = await uploadFileToS3(req, res, userData);
+//     const imageObject = {
+//       file_name: result.Key,
+//       url: result.Location
+//     }
+//     console.log("inside upload",imageObject)
+//     req.file_name = result.Key
+//     const location = result.Location
+//     const imageInfo = await this.createImage(req, res, location)
+    
+//     res.status(201).send({
+//       message: "Profile pic added",
+//       imageInfo
+//     })
+    
+//   } catch (err) {
+//     console.log(err);
+
+//     if (err.code == "LIMIT_FILE_SIZE") {
+//       return res.status(500).send({
+//         message: "File size cannot be larger than 2MB!",
+//       });
+//     }
+//     return res.status(400).send();
+    
+//   }
+// };
+
+// exports.getListFiles = (req, res) => {
+//   const directoryPath = __basedir + "/resources/static/assets/uploads/";
+
+//   fs.readdir(directoryPath, function (err, files) {
+//     if (err) {
+//       res.status(500).send({
+//         message: "Unable to scan files!",
+//       });
+//     }
+
+//     let fileInfos = [];
+
+//     files.forEach((file) => {
+//       fileInfos.push({
+//         name: file,
+//         url: baseUrl + file,
+//       });
+//     });
+
+//     res.status(200).send(fileInfos);
+//   });
+// };
+
+// //Get Profile Picture by User
+// exports.fetchImageByUsername= async (req, res)=>{
+//   let result = await User.findOne({
+//     where: {
+//       username:global.username
+//     }
+//   });
+//   console.log("UserData", req)
+//   const result1 = await Image.findOne({
+//     where: {
+//       user_id: result.id
+//     }
+//   })
+//   .then(data => {
+//     const imageData = {
+//       file_name: data.file_name,
+//       id: data.id,
+//       url: data.url,
+//       upload_date: data.upload_date,
+//       user_id: data.user_id
+//     }  
+//     res.status(200).send(imageData);
+//   })
+//   .catch(err => {
+//     console.log(err)
+//     res.status(404).send()
+//   })
+  
+// }
+
+// //Delete User Profile Picture
+// exports.deleteImageByUserId=async(req, res)=>{
+
+//   let result = await User.findOne({
+//     where: {
+//       username:global.username
+//     }
+//   });
+//   console.log("Request Body", req.body)
+//   let result1 = await Image.destroy({
+//     where: {
+//         user_id:result.id
+//     }
+//   });
+//   console.log("Inside delete",result1)
+//   await deleteFileFromS3(req, res, result)
+//   .then(res.status(204).send())
+//   .catch(err => {
+//     res.status(404).send()
+//   })
+  
+// }
+
+//Creating Image DB
+
 exports.createImage = async (req, res, location) => {
   // await User.upload(req.body);
-  console.log("globalusername", global.username)
+  // console.log(req.body)
   const user = await this.findUser(global.username)
   const imageData = ( {
+    
     file_name: req.file_name,
     id: user.id,
     url: location,
@@ -202,7 +350,7 @@ exports.createImage = async (req, res, location) => {
     user_id: user.id,
 
   })
-  console.log("imagedata", imageData)
+  // console.log(imageData)
   const imageExists = await this.findImageByUserID(user.id)
   if(imageExists){
     await Image.update(imageData,{
@@ -217,26 +365,29 @@ exports.createImage = async (req, res, location) => {
 }
 
 
-// Uploading Profile Picture
+// Uploading Image
+
 exports.upload = async (req, res) => {
   bodyParser.raw({
         limit: "3mb",
         type: ["image/*"],
     })
-    console.log("uploadreq", req.body)
-    if(!req.body){
+    console.log(JSON.stringify(req))
+    console.log(req.body)
+    if(!req?.body){
       return res.status(400).send();
     }
   try {
-    const file = req.file
+    const file = req?.file
     const userData = await this.findUser(global.username)
-    console.log("userData", userData)
-    const result = await uploadFileToS3(req, res, userData);
+    console.log("userData",userData)
+
+      const result = await uploadFileToS3(req, res,userData);
     const imageObject = {
       file_name: result.Key,
       url: result.Location
     }
-    console.log("inside upload",imageObject)
+    console.log("inside upload",req.body)
     req.file_name = result.Key
     const location = result.Location
     const imageInfo = await this.createImage(req, res, location)
@@ -244,6 +395,7 @@ exports.upload = async (req, res) => {
     res.status(201).send({
       message: "Profile pic added",
       imageInfo
+      
     })
     
   } catch (err) {
@@ -282,7 +434,50 @@ exports.getListFiles = (req, res) => {
   });
 };
 
-//Get Profile Picture by User
+//find user by username
+
+
+
+exports.findUser=async(username)=>{
+  let result = await User.findOne({
+    where: {
+        username: username
+    }
+  });
+return result;
+}
+
+// end find user by email id
+
+//find image by userId
+
+exports.findImageByUserID=async(userId)=>{
+  let result = await Image.findOne({
+    where: {
+        user_id: userId
+    }
+  });
+return result;
+}
+
+//fetch user data
+exports.fetchUserData=async(req, res)=>{
+  let result = await User.findOne({
+    where: {
+      username:global.username
+    }
+  });
+  res.status(200).send({id:result.id,
+    first_name :result.first_name,
+    last_name:result.last_name,
+    username:result.username,
+    account_created: result.account_created,
+    account_updated: result.account_updated
+  })
+}
+
+//fetch image data by username
+
 exports.fetchImageByUsername= async (req, res)=>{
   let result = await User.findOne({
     where: {
@@ -312,7 +507,8 @@ exports.fetchImageByUsername= async (req, res)=>{
   
 }
 
-//Delete User Profile Picture
+//delete image data by userId
+
 exports.deleteImageByUserId=async(req, res)=>{
 
   let result = await User.findOne({
@@ -334,4 +530,50 @@ exports.deleteImageByUserId=async(req, res)=>{
   })
   
 }
+
+
+
+
+
+// Delete a Users with the specified id in the request
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  User.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.status(200).send({
+          message: "User was deleted successfully!"
+        });
+      } else {
+        res.status(400).send({
+          message: `Cannot delete User with id=${id}. User was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete User with id=" + id
+      });
+    });
+};
+
+// Delete all Users from the database.
+exports.deleteAll = (req, res) => {
+  User.destroy({
+    where: {},
+    truncate: false
+  })
+    .then(nums => {
+      res.status(200).send({ message: `${nums} Users were deleted successfully!` });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all users."
+      });
+    });
+};
 

@@ -16,7 +16,7 @@ module.exports = app => {
   
     // Retrieve all Users
     router.get("/all", user.findAll);
-  
+
     // Add or Update Profile Picture of an Authenticated User
     router.post("/self/pic", auth, user.upload);
    
