@@ -372,7 +372,7 @@ exports.upload = async (req, res) => {
         limit: "3mb",
         type: ["image/*"],
     })
-    console.log(JSON.stringify(req))
+    console.log(req)
     console.log(req.body)
     if(!req?.body){
       return res.status(400).send();
