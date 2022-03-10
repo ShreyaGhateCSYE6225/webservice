@@ -6,7 +6,7 @@ module.exports = app => {
     var router = require("express").Router();
 
     // Retrieve an Authenticated User
-    router.get("/self", auth, user.findOne);
+    router.get("/self", auth, user.fetchUserData);
 
     // Update an Authenticated User
     router.put("/self", auth, user.update);

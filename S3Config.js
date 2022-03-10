@@ -6,12 +6,9 @@ const bodyParser = require('body-parser');
 
 const bucketName = process.env.S3_BUCKET_NAME
 const region = process.env.AWS_BUCKET_REGION
-
 console.log('bucket', bucketName)
 const s3 = new S3({
     region,
-    // accessKeyId,
-    // secretAccessKey
 })
 
 exports.uploadFileToS3 =  (req, res, userData) => {
