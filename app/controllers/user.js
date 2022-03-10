@@ -50,7 +50,7 @@ exports.create = (req, res) => {
             User.create(userObject)
             .then(data => {
               var auth = 'Basic ' + Buffer.from(req.body.username + ':' + req.body.password).toString('base64');
-              console.log(auth);  
+              console.log("data!!!!!", data);  
               const token = ({
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
@@ -192,10 +192,9 @@ exports.update = (req, res) => {
 
 //Creating Image DB
 exports.createImage = async (req, res, location) => {
-  // await User.upload(req.body);
   // console.log(req.body)
   const user = await this.findUser(global.username)
-  const imageData = ( {
+  const imageData = ({
     file_name: req.file_name,
     id: user.id,
     url: location,
@@ -203,11 +202,11 @@ exports.createImage = async (req, res, location) => {
     user_id: user.id,
   })
   // console.log(imageData)
-  const imageExists = await this.findImageByUserID(user.id)
-  if(imageExists){
+  const ifImage = await this.findImageByUserID(user.id)
+  if(ifImage){
     await Image.update(imageData,{
       where:{
-        id:imageExists.id
+        id:ifImage.id
       }
     })
   }else{
@@ -217,12 +216,9 @@ exports.createImage = async (req, res, location) => {
 }
 
 
-// Uploading Image
+// Uploading user profile picture
 exports.upload = async (req, res) => {
-  bodyParser.raw({
-        limit: "3mb",
-        type: ["image/*"],
-    })
+    bodyParser.raw({type: ["image/jpeg", "image/png", "image/jpg"], limit: "3mb"}),
     console.log(req.body)
     if(!req.body){
       return res.status(400).send({
@@ -230,29 +226,36 @@ exports.upload = async (req, res) => {
       });
     }
   try {
-    const file = req.file
+    // const file = req.file
+    // var file_name=req.files.upload.name;
+    console.log("file name", req);
+    for(let [key,value] of Object.entries(req)){
+      console.log(key,value)
+    }
     const userData = await this.findUser(global.username)
     
-      const result = await uploadFileToS3(req, res,userData);
-    const imageObject = {
+    const result = await uploadFileToS3(req, res,userData);
+    const imageObj = {
       file_name: result.Key,
       url: result.Location
     }
     console.log("inside upload",req.body)
+    console.log("filename", result);
     req.file_name = result.Key
     const location = result.Location
-    const imageInfo = await this.createImage(req, res, location)
+    const id = JSON.parse(result.ETag)
+    const imageOutput = await this.createImage(req, res, location)
     
     res.status(201).send(
       // message: "Profile picture added",
-      imageInfo
+      imageOutput
     )
   } catch (err) {
-    console.log(err);
+    console.log("errrr",err);
 
     if (err.code == "LIMIT_FILE_SIZE") {
-      return res.status(500).send({
-        message: "File size cannot be larger than 2MB!",
+      return res.status(400).send({
+        message: "File size exceeds 2MB, please upload another file!",
       });
     }
     return res.status(400).send({
@@ -268,7 +271,7 @@ exports.getListFiles = (req, res) => {
   fs.readdir(directoryPath, function (err, files) {
     if (err) {
       res.status(500).send({
-        message: "Unable to scan files!",
+        message: "Unable to scan!",
       });
     }
 
@@ -286,7 +289,7 @@ exports.getListFiles = (req, res) => {
 };
 
 //find user by username
-exports.findUser=async(username)=>{
+exports.findUser = async(username)=>{
   let result = await User.findOne({
     where: {
         username: username
@@ -295,8 +298,8 @@ exports.findUser=async(username)=>{
 return result;
 }
 
-//find image by userId
-exports.findImageByUserID=async(userId)=>{
+//find image by user
+exports.findImageByUserID = async(userId)=>{
   let result = await Image.findOne({
     where: {
         user_id: userId
@@ -305,8 +308,8 @@ exports.findImageByUserID=async(userId)=>{
 return result;
 }
 
-//fetch user data
-exports.fetchUserData=async(req, res)=>{
+//Get all user data
+exports.getUser = async(req, res)=>{
   let result = await User.findOne({
     where: {
       username:global.username
@@ -322,8 +325,8 @@ exports.fetchUserData=async(req, res)=>{
   })
 }
 
-//fetch image data by username
-exports.fetchImageByUsername= async (req, res)=>{
+//Get profile picture of Authenticated user
+exports.getProfilePicture = async (req, res)=>{
   let result = await User.findOne({
     where: {
       username:global.username
@@ -344,15 +347,18 @@ exports.fetchImageByUsername= async (req, res)=>{
       user_id: data.user_id
     }  
     res.status(200).send(imageData);
-  })
+  }
+  )
   .catch(err => {
     console.log(err)
-    res.status(404).send()
+    res.status(404).send({
+      message: "This user does not have a profile picture set!"
+    })
   })
 }
 
-//delete image data by userId
-exports.deleteImageByUserId=async(req, res)=>{
+//delete the user profile picture
+exports.deleteProfilePic = async(req, res)=>{
   let result = await User.findOne({
     where: {
       username:global.username
