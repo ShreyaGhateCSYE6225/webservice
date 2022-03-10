@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+
+  db:
+    image: postgres:13.1-alpine
+    environment:
+      - POSTGRES_USER=shreya
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=webapp
+    ports:
+      - "5433:5432"
+    restart: always
+    container_name: db
