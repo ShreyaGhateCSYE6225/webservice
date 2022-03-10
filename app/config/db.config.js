@@ -8,10 +8,10 @@ module.exports = {
     DB: process.env.DB_NAME,
     dialect: "postgres",
     pool: {
-        max: 5,
+        max: 50,
         min: 0,
         acquire: 30000,
-        idle: 10000
+        idle: 20000
     },
     dialectOptions: {
         useUTC: false, 
@@ -20,3 +20,25 @@ module.exports = {
     },
     timezone: '-05:00'
     }
+
+
+   
+// module.exports = {
+//     host : "localhost",
+//     user: "shreya",
+//     password: "password",
+//     db: "webapp",
+//     dialect: "postgres",
+//     pool: {
+//         max: 5,
+//         min: 0,
+//         acquire: 30000,
+//         idle: 10000
+//     },
+//     dialectOptions: {
+//         useUTC: false, 
+//         dateStrings: true,
+//         typeCast: true
+//     },
+//     timezone: '-05:00'
+//     }
