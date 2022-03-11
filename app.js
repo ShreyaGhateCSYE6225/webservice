@@ -23,15 +23,6 @@ const db = require("./app/models");
 
 db.sequelize.sync();
 
-db.sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
 app.get("/healthz", (req, res) => {
     res.json({ message: "Hello from Healthz" });
   });

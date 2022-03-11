@@ -229,9 +229,6 @@ exports.upload = async (req, res) => {
     // const file = req.file
     // var file_name=req.files.upload.name;
     console.log("file name", req);
-    for(let [key,value] of Object.entries(req)){
-      console.log(key,value)
-    }
     const userData = await this.findUser(global.username)
     
     const result = await uploadFileToS3(req, res,userData);
