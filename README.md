@@ -1,5 +1,5 @@
 # Build and Deploy instructions for the web application locally:
-A RESTful API example written using Node.JS
+A RESTful API example written using Node.JS (express)
 
 ## Prerequisites for building and deploying your application locally:
 Download and Configure Node, NPM, Visual Studio, Postman, PostgreSQL with Sequelize
