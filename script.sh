@@ -28,7 +28,8 @@ $CODEDEPLOY_BIN stop
 yum erase codedeploy-agent -y
 
 cd /home/ec2-user || exit
-wget https://codedeploy.shreyaghate.me.s3."$AWS_DEFAULT_REGION".amazonaws.com/latest/install
+wget https://codedeploy.shreyaghate.me.s3.us-east-1.amazonaws.com/latest/install
+# wget https://codedeploy.shreyaghate.me.s3."$AWS_DEFAULT_REGION".amazonaws.com/latest/install
 chmod +x ./install
 sudo ./install auto
 sudo service codedeploy-agent status
