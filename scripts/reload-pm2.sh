@@ -15,7 +15,7 @@ sudo pm2 kill
 sudo pm2 startup systemd --service-name webservice
 sudo pm2 start app.js
 sudo pm2 save
-# sudo pm2 reload all --update-env
+sudo pm2 reload all --update-env
 
 
 # #!/bin/bash
