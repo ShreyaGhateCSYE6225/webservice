@@ -31,6 +31,10 @@ app.get("/v1", (req, res) => {
     res.json({message: "Hello, this is users database"});
 })
 
+app.get("/v2", (req, res) => {
+    res.json({message: "Hello, this is users database"});
+})
+
 require("./app/routes/routes")(app);
 
 app.listen(port,()=> {
