@@ -5,8 +5,8 @@ ls -al
 echo "In /home/ec2-user"
 cd /home/ec2-user || exit 
 cd webservice || exit
-echo 'Installing dependencies'
-sudo npm install --production
+# echo 'Installing dependencies'
+# sudo npm install --production
 
 # sudo unzip build_artifact.zip
 # echo "#CSYE6225: after install: remove zip from webservice folder"
