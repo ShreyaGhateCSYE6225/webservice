@@ -50,13 +50,6 @@ jobs:
       with:
         command: validate
         target: ami.pkr.hcl
-
-    - name: Packer Build
-      uses: hashicorp/packer-github-actions@master
-      with:
-        command: build
-        arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -var=AWS_REGION=${{ secrets.AWS_REGION }}
-        target: ami.pkr.hcl
         
     - name: Upload Zip to S3
       run: |
@@ -76,6 +69,13 @@ jobs:
            --file-exists-behavior OVERWRITE \
            --s3-location bucket=${{ secrets.S3_BUCKET }},key=csye6225-webapp-${{ github.sha }}.zip,bundleType=zip \
           
+    - name: Packer Build
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: build
+        arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -var=AWS_REGION=${{ secrets.AWS_REGION }}
+        target: ami.pkr.hcl
+        
       env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_S3_BUCKET: ${{secrets.S3_BUCKET}}
