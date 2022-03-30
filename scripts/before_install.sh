@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Before Install"
+echo "Before Install Step"
 pwd
 ls -al 
 cd /home/ec2-user || exit
