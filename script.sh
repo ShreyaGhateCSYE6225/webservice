@@ -16,6 +16,22 @@ sudo yum install postgresql13 -y
 
 cd webservice/ || exit
 
-sudo pm2 startup systemd --service-name app
+sudo pm2 startup systemd --service-name webservice
 sudo pm2 start app.js
 sudo pm2 save
+
+sudo yum install ruby -y 
+sudo yum install wget -y 
+
+CODEDEPLOY_BIN="/opt/codedeploy-agent/bin/codedeploy-agent"
+$CODEDEPLOY_BIN stop
+yum erase codedeploy-agent -y
+
+cd /home/ec2-user || exit
+wget https://codedeploy.shreyaghate.me.s3."$AWS_DEFAULT_REGION".amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto
+sudo service codedeploy-agent status
+# sudo service codedeploy-agent start
+
+
