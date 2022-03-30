@@ -12,7 +12,7 @@ variable "AWS_ACCESS_KEY_ID" {
   default = ""
 }
 
-variable "aws_region" {
+variable "AWS_REGION" {
   type    = string
   default = "us-east-1"
 }
