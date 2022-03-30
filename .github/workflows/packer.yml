@@ -48,7 +48,7 @@ jobs:
       uses: hashicorp/packer-github-actions@master
       with:
         command: build
-        arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -var=AWS_REGION=${{secrets.AWS_REGION}}
+        arguments: -var=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -var=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -var=AWS_REGION=${{ secrets.AWS_REGION }}
         target: ami.pkr.hcl
 
     - name: Copy Artifacts to S3
