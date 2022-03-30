@@ -31,9 +31,9 @@ app.get("/v1", (req, res) => {
     res.json({message: "Hello, this is v1 users database"});
 })
 
-// app.get("/v2", (req, res) => {
-//     res.json({message: "Hello, this is v2 users database"});
-// })
+app.get("/v2", (req, res) => {
+    res.json({message: "Hello, this is v2 users database"});
+})
 
 require("./app/routes/routes")(app);
 
