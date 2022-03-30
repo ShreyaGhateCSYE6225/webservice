@@ -31,9 +31,9 @@ app.get("/v1", (req, res) => {
     res.json({message: "Hello, this is v1 users database"});
 })
 
-app.get("/health", (req, res) => {
-    res.json({message: "Hello, this is health endpoint"});
-})
+// app.get("/health", (req, res) => {
+//     res.json({message: "Hello, this is health endpoint"});
+// })
 
 require("./app/routes/routes")(app);
 
