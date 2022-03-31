@@ -6,7 +6,7 @@ cd /home/ec2-user || exit
 pwd 
 echo "Stopping webservice"
 sudo systemctl stop webservice
-cd webservice/ || exit
-sudo rm -rf node_modules
+# cd webservice/ || exit
+# sudo rm -rf node_modules
 # echo "Recreating webservice"
 # mkdir webservice
