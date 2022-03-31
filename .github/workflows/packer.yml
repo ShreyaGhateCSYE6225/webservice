@@ -18,8 +18,8 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
-    # - name: Install Node Packages
-    #   run: npm ci
+    - name: Install Node Packages
+      run: npm ci
 
     - name: Zip files
       run: zip -r webservice.zip .

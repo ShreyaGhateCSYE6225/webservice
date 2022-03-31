@@ -1,9 +1,10 @@
 #!/bin/bash
+cd /home/ec2-user || exit
+pwd
+sudo chown ec2-user: webservice
+pwd
 cd /home/ec2-user/webservice || exit
-sudo pm2 kill
-sudo pm2 start app.js
-sudo pm2 save
-sudo pm2 startup systemd --service-name myapp
+npm install
 
 # echo "After Install"
 # pwd
