@@ -1,7 +1,14 @@
 #!/bin/bash
 cd /home/ec2-user/webservice || exit
-sudo pm2 kill
-sudo pm2 start app.js
+pwd
+ls
+pm2 stop all
+pm2 start app.js
+sudo pm2 startup systemd
+sudo pm2 save
+sudo ln -s /home/ec2-user/webservice/node-service.service /etc/systemd/system/node-service.service
+sudo systemctl daemon-reload
+sudo systemctl restart node-service.service
 
 # sudo systemctl start webservice
 # cd /home/ec2-user/webservice || exit
