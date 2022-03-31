@@ -32,7 +32,7 @@ app.get("/v1", (req, res) => {
 })
 
 app.get("/health", (req, res) => {
-    res.json({message: "Hello, this is health endpoint"});
+    res.json({message: "Hello, this is a health endpoint"});
 })
 
 require("./app/routes/routes")(app);
