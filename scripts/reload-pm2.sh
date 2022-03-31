@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd /home/ec2-user/webservice || exit
+sudo npm install --production
 pm2 kill
 sudo rm -rf S3Config.js
 pm2 start app.js
