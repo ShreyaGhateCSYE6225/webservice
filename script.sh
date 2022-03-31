@@ -20,7 +20,7 @@ sudo pm2 startup systemd --service-name webservice
 sudo pm2 start app.js
 sudo pm2 save
 
-sudo yum update
+# sudo yum update
 sudo yum install ruby -y 
 sudo yum install wget -y 
 
