@@ -5,7 +5,7 @@ files:
   - source: /
     destination: /home/ec2-user/webservice
     overwrite: true
-    file_exists_behavior: OVERWRITE
+file_exists_behavior: OVERWRITE
 
 hooks:
   # BeforeInstall:
