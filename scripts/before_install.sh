@@ -6,7 +6,6 @@ echo "Deleting pm2 process"
 sudo pm2 delete all
 sudo pm2 status
 
-pm2 stop all
 cd /home/ec2-user/ || exit
 sudo rm -rf webservice node_modules 
 
