@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha ./test/* --exit",
-    "dev": "node app.js"
+    "dev": "node app.js",
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.6.5",
+    "statsd-client": "^0.4.7",
     "superagent": "^7.1.1",
     "uuid": "^8.3.2"
   },

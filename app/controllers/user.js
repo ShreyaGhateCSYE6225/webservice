@@ -13,10 +13,17 @@ const fs = require("fs");
 const util = require('util');
 const baseUrl = "http://localhost:8080/v1/self/pic";
 const bodyParser = require('body-parser');
+const SDCClient = require("statsd-client");
+const sdcclient = new SDCClient({ host: 'localhost', port: 8125, prefix: 'csye6225webapp'});
+// const sdcclient = new SDCClient({ port: 8125 });
+sdcclient.increment('GET /healthz');
 
 //Create user if not there already
 exports.create = (req, res) => {
     // Check request 
+    sdcclient.increment("Create User");
+    let startTime = new Date();
+
     if (!req.body.first_name) {
       res.status(400).send();
       return;
@@ -84,6 +91,11 @@ exports.create = (req, res) => {
          });
         }
     } )
+    let endTime = new Date();
+    sdcclient.timing(
+      "User creation time",
+      endTime - startTime
+    );
   };
 
 // Find all users
@@ -105,7 +117,10 @@ exports.findAll = (req, res) => {
 
 // Find the specific user by id
 exports.findOne = (req, res) => {
-  console.log('Finding one', res.locals);
+  // console.log('Finding one', res.locals);
+  sdcclient.increment("Find User");
+  let startTime = new Date();
+
   User.findByPk(req.params.id)
     .then(data => {
       res.status(200).send({
@@ -121,10 +136,17 @@ exports.findOne = (req, res) => {
         message: "Error retrieving user with id=" + id
       });
     });
+    sdcclient.timing(
+      "Specific User Get time",
+      endTime - startTime
+    );
 };
 
 // Update a User by the id in the request
 exports.update = (req, res) => {  
+  sdcclient.increment("Update User");
+  let startTime = new Date();
+
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     console.log("request", req)
     if(err){
@@ -187,12 +209,20 @@ exports.update = (req, res) => {
     });
     }
   })
+
+  let endTime = new Date();
+  sdcclient.timing(
+    "User Update time",
+    endTime - startTime
+  );
   
 };
 
 //Creating Image DB
 exports.createImage = async (req, res, location) => {
   // console.log(req.body)
+  sdcclient.increment("Create Image");
+  let startTime = new Date();
   const user = await this.findUser(global.username)
   const imageData = ({
     file_name: req.file_name,
@@ -212,12 +242,20 @@ exports.createImage = async (req, res, location) => {
   }else{
     await Image.create(imageData)
   }
+  let endTime = new Date();
+  sdcclient.timing(
+    "Create Image time",
+    endTime - startTime
+  );
   return imageData
+  
 }
 
 
 // Uploading user profile picture
 exports.upload = async (req, res) => {
+  sdcclient.increment("Upload Image");
+  let startTime = new Date();
     bodyParser.raw({type: ["image/jpeg", "image/png", "image/jpg"], limit: "3mb"}),
     console.log(req.body)
     if(!req.body){
@@ -260,9 +298,17 @@ exports.upload = async (req, res) => {
     });
     
   }
+  let endTime = new Date();
+  sdcclient.timing(
+    "Image Upload time",
+    endTime - startTime
+  );
 };
 
 exports.getListFiles = (req, res) => {
+  sdcclient.increment("Fetching List");
+  let startTime = new Date();
+
   const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
   fs.readdir(directoryPath, function (err, files) {
@@ -280,7 +326,10 @@ exports.getListFiles = (req, res) => {
         url: baseUrl + file,
       });
     });
-
+    sdcclient.timing(
+      "Get List time",
+      endTime - startTime
+    );
     res.status(200).send(fileInfos);
   });
 };
@@ -307,11 +356,18 @@ return result;
 
 //Get all user data
 exports.getUser = async(req, res)=>{
+  sdcclient.increment("Fetch User Data");
+  let startTime = new Date();
   let result = await User.findOne({
     where: {
       username:global.username
     }
   });
+  let endTime = new Date();
+  sdcclient.timing(
+    "Get User Data time",
+    endTime - startTime
+  );
   res.status(200).send({
     id:result.id,
     first_name :result.first_name,
@@ -324,6 +380,8 @@ exports.getUser = async(req, res)=>{
 
 //Get profile picture of Authenticated user
 exports.getProfilePicture = async (req, res)=>{
+  sdcclient.increment("Get User Profile Picture");
+  let startTime = new Date();
   let result = await User.findOne({
     where: {
       username:global.username
@@ -343,6 +401,11 @@ exports.getProfilePicture = async (req, res)=>{
       upload_date: data.upload_date,
       user_id: data.user_id
     }  
+    let endTime = new Date();
+      sdcclient.timing(
+        "Get User Profile Pic time",
+        endTime - startTime
+      );
     res.status(200).send(imageData);
   }
   )
@@ -356,6 +419,8 @@ exports.getProfilePicture = async (req, res)=>{
 
 //delete the user profile picture
 exports.deleteProfilePic = async(req, res)=>{
+  sdcclient.increment("Delete User Profile Picture");
+  let startTime = new Date();
   let result = await User.findOne({
     where: {
       username:global.username
@@ -369,7 +434,13 @@ exports.deleteProfilePic = async(req, res)=>{
   });
   console.log("Inside delete",result1)
   await deleteFileFromS3(req, res, result)
-  .then(res.status(204).send())
+  .then(data => {
+    let endTime = new Date();
+    sdcclient.timing(
+      "Delete Profile Picture time",
+      endTime - startTime);
+    res.status(204).send()
+  })
   .catch(err => {
     res.status(404).send()
   })
