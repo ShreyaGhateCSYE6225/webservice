@@ -10,7 +10,7 @@
                 "collect_list": [
                     {
                         "file_path": "/home/ec2-user/webservice/logs/app.log",
-                        "log_group_name": "csye6225-fall2022",
+                        "log_group_name": "csye6225-spring2022",
                         "log_stream_name": "webservice",
                         "timezone":"UTC"
                     }
