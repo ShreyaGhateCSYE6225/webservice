@@ -26,5 +26,9 @@ module.exports = app => {
     //Delete Profile Picture of an Authenticated User
     router.delete("/self/pic",auth,user.deleteProfilePic);
 
+    router.get("/healthcheck", (req,res) => {
+      res.send(200);
+    })
+
     app.use("/v1/user", router);
   };
