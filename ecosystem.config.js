@@ -3,7 +3,7 @@ module.exports = {
       {
         name: 'webservice',
         script: 'npm',
-        args: 'start',
+        args: 'run dev',
         interpreter: 'none',
         env: {
           NODE_ENV: 'development',
