@@ -17,7 +17,7 @@ const SDCClient = require("statsd-client");
 const logger = require('../config/logger');
 const sdcclient = new SDCClient({ host: 'localhost', port: 8125, prefix: 'csye6225webapp'});
 
-sdcclient.increment('GET /healthz');
+// sdcclient.increment('GET /healthz');
 
 //Create user if not there already
 exports.create = (req, res) => {

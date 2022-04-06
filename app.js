@@ -4,6 +4,9 @@ const port = process.env.port || 8080;
 const cors = require("cors");
 const auth = require("./app/auth/auth")
 const app = express();
+const SDCClient = require("statsd-client");
+const logger = require('./app/config/logger');
+const sdcclient = new SDCClient({ host: 'localhost', port: 8125, prefix: 'csye6225webapp'});
 
 global.__basedir = __dirname;
 
@@ -24,7 +27,15 @@ const db = require("./app/models");
 db.sequelize.sync();
 
 app.get("/healthz", (req, res) => {
+    logger.info("GET /healthz Call");
+    sdcclient.increment("GET /healthz");
+    let startTime = new Date();
     res.json({ message: "Hello from Healthz" });
+    let endTime = new Date();
+    sdcclient.timing(
+      "User creation time",
+      endTime - startTime
+    );
   });
 
 app.get("/v1", (req, res) => {
