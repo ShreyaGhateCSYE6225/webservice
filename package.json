@@ -1,5 +1,5 @@
 {
-  "name": "webapp-assignment1",
+  "name": "webservice",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -31,7 +31,8 @@
     "sequelize": "^6.6.5",
     "statsd-client": "^0.4.7",
     "superagent": "^7.1.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.7.2"
   },
   "devDependencies": {
     "mocha": "^9.2.0",
