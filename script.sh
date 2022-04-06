@@ -37,9 +37,15 @@ sudo service codedeploy-agent status
 sudo service codedeploy-agent start
 
 sudo yum install amazon-cloudwatch-agent
-wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
-sudo yum -y install amazon-cloudwatch-agent.rpm
+# wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
+# sudo yum -y install amazon-cloudwatch-agent.rpm
 mv /etc/amazon/amazon-cloudwatch-agent.json /etc/amazon/amazon-cloudwatch-agent/amazon-cloudwatch-agent.json
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+    -a fetch-config \
+    -m ec2 \
+    -c file:/home/ec2-user/webservice/amazon-cloud-watch.json \
+    -s
+
 sudo systemctl enable amazon-cloudwatch-agent
 sudo systemctl start amazon-cloudwatch-agent
 
