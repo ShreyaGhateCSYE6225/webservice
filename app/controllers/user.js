@@ -14,13 +14,15 @@ const util = require('util');
 const baseUrl = "http://localhost:8080/v1/self/pic";
 const bodyParser = require('body-parser');
 const SDCClient = require("statsd-client");
-const sdcclient = new SDCClient({ host: 'localhost', prefix: 'csye6225webapp'});
+const logger = require('../config/logger');
+const sdcclient = new SDCClient({ host: 'localhost', port: 8125, prefix: 'csye6225webapp'});
 
 sdcclient.increment('GET /healthz');
 
 //Create user if not there already
 exports.create = (req, res) => {
     // Check request 
+    logger.info("Create User Call");
     sdcclient.increment("Create User");
     let startTime = new Date();
 
@@ -118,6 +120,7 @@ exports.findAll = (req, res) => {
 // Find the specific user by id
 exports.findOne = (req, res) => {
   // console.log('Finding one', res.locals);
+  logger.info("Find User Call");
   sdcclient.increment("Find User");
   let startTime = new Date();
 
@@ -144,6 +147,7 @@ exports.findOne = (req, res) => {
 
 // Update a User by the id in the request
 exports.update = (req, res) => {  
+  logger.info("Update User Call");
   sdcclient.increment("Update User");
   let startTime = new Date();
 
@@ -221,6 +225,7 @@ exports.update = (req, res) => {
 //Creating Image DB
 exports.createImage = async (req, res, location) => {
   // console.log(req.body)
+  logger.info("Create Image Call");
   sdcclient.increment("Create Image");
   let startTime = new Date();
   const user = await this.findUser(global.username)
@@ -254,6 +259,7 @@ exports.createImage = async (req, res, location) => {
 
 // Uploading user profile picture
 exports.upload = async (req, res) => {
+  logger.info("Upload Image Call");
   sdcclient.increment("Upload Image");
   let startTime = new Date();
     bodyParser.raw({type: ["image/jpeg", "image/png", "image/jpg"], limit: "3mb"}),
@@ -306,6 +312,7 @@ exports.upload = async (req, res) => {
 };
 
 exports.getListFiles = (req, res) => {
+  logger.info("Fetching List Call");
   sdcclient.increment("Fetching List");
   let startTime = new Date();
 
@@ -356,6 +363,7 @@ return result;
 
 //Get all user data
 exports.getUser = async(req, res)=>{
+  logger.info("Fetch User Data Call");
   sdcclient.increment("Fetch User Data");
   let startTime = new Date();
   let result = await User.findOne({
@@ -380,6 +388,7 @@ exports.getUser = async(req, res)=>{
 
 //Get profile picture of Authenticated user
 exports.getProfilePicture = async (req, res)=>{
+  logger.info("Get User Profile Picture Call");
   sdcclient.increment("Get User Profile Picture");
   let startTime = new Date();
   let result = await User.findOne({
@@ -419,6 +428,7 @@ exports.getProfilePicture = async (req, res)=>{
 
 //delete the user profile picture
 exports.deleteProfilePic = async(req, res)=>{
+  logger.info("Delete User Profile Picture Call");
   sdcclient.increment("Delete User Profile Picture");
   let startTime = new Date();
   let result = await User.findOne({
