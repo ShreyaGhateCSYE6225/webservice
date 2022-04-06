@@ -14,7 +14,7 @@ const util = require('util');
 const baseUrl = "http://localhost:8080/v1/self/pic";
 const bodyParser = require('body-parser');
 const SDCClient = require("statsd-client");
-const sdcclient = new SDCClient({ host: 'localhost', port: 8125, prefix: 'csye6225webapp'});
+const sdcclient = new SDCClient({ host: 'localhost', prefix: 'csye6225webapp'});
 
 sdcclient.increment('GET /healthz');
 
