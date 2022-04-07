@@ -33,7 +33,7 @@ app.get("/healthz", (req, res) => {
     res.json({ message: "Hello from Healthz" });
     let endTime = new Date();
     sdcclient.timing(
-      "User creation time",
+      "healthz endpoint executed",
       endTime - startTime
     );
   });
