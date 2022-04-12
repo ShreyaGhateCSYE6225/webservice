@@ -4,6 +4,7 @@ module.exports = app => {
     const bodyParser = require('body-parser')
     const uploadFileToS3 = require("../../S3Config")
     var router = require("express").Router();
+    var verifyRoute = require("express").Router();
 
     // Retrieve an Authenticated User
     router.get("/self", auth, user.getUser);
@@ -26,9 +27,12 @@ module.exports = app => {
     //Delete Profile Picture of an Authenticated User
     router.delete("/self/pic",auth,user.deleteProfilePic);
 
-    router.get("/healthcheck", (req,res) => {
-      res.send(200);
-    })
+    // router.get("/healthcheck", (req,res) => {
+    //   res.send(200);
+    // })
+
+    verifyRoute.get("/", user.verifyUser);
 
     app.use("/v1/user", router);
+    app.use("/v1/verifyUserEmail", verifyRoute)
   };
