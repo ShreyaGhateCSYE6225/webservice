@@ -34,7 +34,7 @@ const dynamoDBTable = new aws.DynamoDB.DocumentClient({
   region: "us-east-1"
 });
 const jwt = require('jsonwebtoken');
-const sns = new AWS.SNS();
+const sns = new aws.SNS();
 // sdcclient.increment('GET /healthz');
 
 //Create user if not there already
@@ -92,7 +92,7 @@ exports.create = (req, res) => {
 
             let sns_params = {
               Message: sns_message,
-              TopicArn: process.env.AWS_SNS
+              // TopicArn: process.env.AWS_SNS
             };
 
             sns.publish(sns_params, (err, sns_data) => {
