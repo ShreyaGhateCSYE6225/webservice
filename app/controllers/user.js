@@ -565,14 +565,14 @@ exports.verifyUser = async (req, res) => {
   //get params form req.url
   let arg = URL.parse(req.url, true).query;
   logger.info(arg.email);
-  console.log(arg.username);
-  console.log(arg.token);
-  console.log(req.username);
-  console.log(req.token);
+  // console.log(arg.username);
+  // console.log(arg.token);
+  // console.log(req.username);
+  // console.log(req.token);
 
-  const user = await this.findUser(global.username)
+  const user = await this.findUser(arg.email)
   logger.info(user);
-  logger.info(user.username);
+  // logger.info(user.username);
 
   let eParams = {
     Key: {
