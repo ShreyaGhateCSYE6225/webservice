@@ -55,9 +55,8 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: false,
         },
         verified_on: {
-            type: 'TIMESTAMP',
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-            allowNull: false,
+            type: Sequelize.DATE,
+            allowNull: true,
         },
     },{
         updatedAt: 'account_updated',

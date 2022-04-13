@@ -105,29 +105,10 @@ exports.create = (req, res) => {
             });
 
             console.log("data:", data);
-            // const dataNew = {
-            //   id : data.id,
-            //   first_name : req.body.first_name,
-            //   last_name : req.body.last_name,
-            //   username : req.body.username,
-            //   account_created: data.account_created,
-            //   account_updated: data.account_updated,
-            //   verified: false
-            // }
-            // // token:token
-            // // )
-            // res.status(201).json(dataNew);
             res.status(201).json({
                 message: "User created successfully!",
 
                 User: {
-                  // "id":result.id,
-                  // "first_name":result.first_name,
-                  // "last_name":result.last_name,
-                  // "username":result.username,
-                  // "account_created":result.account_created,
-                  // "account_updated":result.account_updated,
-                  // "verified": false
                   id: data.id,
                   first_name: req.body.first_name,
                   last_name: req.body.last_name,
@@ -136,7 +117,7 @@ exports.create = (req, res) => {
                   account_updated: data.account_updated,
                   verified: false
                 },
-                token: token
+                // token: token
               })
             })
               .catch(err => {
@@ -624,7 +605,8 @@ exports.verifyUser = async (req, res) => {
             where: {
               username: arg.email
             }
-          }).then(() => {
+
+          }).then(data => {
             logger.info('Email address verified!');
             return res.status(200).json({
               message: "You are now a verified user!"
