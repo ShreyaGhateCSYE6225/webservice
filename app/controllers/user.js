@@ -650,7 +650,7 @@ exports.deleteAll = (req, res) => {
     truncate: false
   })
     .then(number => {
-      res.status(200).send({ message: `${number} users deleted successfully!` });
+      res.status(200).send({ message: `${number} user(s) deleted successfully!` });
     })
     .catch(err => {
       res.status(500).send({
