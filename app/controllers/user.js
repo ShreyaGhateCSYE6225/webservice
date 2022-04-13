@@ -590,6 +590,7 @@ exports.verifyUser = async (req, res) => {
   //get item form aws dynamodb table
   dynamoDBTable.get(eParams, function (error, code) {
     var jsString = JSON.stringify(code);
+    logger.info("entered dynamoDBTable get!");
     console.log('jsString', code);
     if (error) {
       console.log("Error", error);
@@ -621,7 +622,7 @@ exports.verifyUser = async (req, res) => {
 
           User.update(updateVerified, {
             where: {
-              username: global.username
+              username: arg.email
             }
           }).then(() => {
             logger.info('Email address verified!');
@@ -632,7 +633,7 @@ exports.verifyUser = async (req, res) => {
             logger.info(error.message);
             return res.status(500).json({
               message: "Something went wrong",
-              error: error
+              error: error.message
             });
           });
 
