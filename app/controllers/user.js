@@ -571,6 +571,8 @@ exports.verifyUser = async (req, res) => {
   console.log(req.token);
 
   const user = await this.findUser(global.username)
+  logger.info(user);
+  logger.info(user.username);
 
   let eParams = {
     Key: {
