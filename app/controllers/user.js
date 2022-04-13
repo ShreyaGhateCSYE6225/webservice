@@ -137,6 +137,7 @@ exports.create = (req, res) => {
                 },
                 token: token
               })
+            })
               .catch(err => {
                 logger.info(err.message);
                 console.log(err.message)
@@ -152,9 +153,7 @@ exports.create = (req, res) => {
                   });
                 }
               });
-          }
-
-        );
+          
       let endTime = new Date();
       sdcclient.timing(
         "User creation time",
