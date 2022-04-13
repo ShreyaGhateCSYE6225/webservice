@@ -38,7 +38,7 @@ const sns = new aws.SNS();
 // sdcclient.increment('GET /healthz');
 
 //Create user if not there already
-exports.create = (err, req, res, next) => {
+exports.create = (req, res) => {
   // Check request 
   logger.info("Create User Call");
   sdcclient.increment("Create User");
