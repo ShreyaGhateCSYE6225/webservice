@@ -451,6 +451,8 @@ exports.getUser = async (req, res) => {
       username: global.username
     }
   }).then(result => {
+    logger.info("Inside User Data result");
+    console.log('inside result', result);
     if (result) {
       if (result.verified == false) {
         logger.warn('Unverified user');
