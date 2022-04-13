@@ -570,8 +570,8 @@ exports.verifyUser = async (req, res) => {
   // console.log(req.username);
   // console.log(req.token);
 
-  const user = await this.findUser(arg.email)
-  logger.info(user);
+  // const user = await this.findUser(arg.email)
+  // logger.info(user);
   // logger.info(user.username);
 
   let eParams = {
@@ -617,6 +617,7 @@ exports.verifyUser = async (req, res) => {
             });
           }
           console.log("Verified email address");
+          logger.info('Verifying Email address!');
 
           User.update(updateVerified, {
             where: {
@@ -625,10 +626,10 @@ exports.verifyUser = async (req, res) => {
           }).then(() => {
             logger.info('Email address verified!');
             return res.status(200).json({
-              message: "Email address verified!"
+              message: "You are now a verified user!"
             });
           }).catch(error => {
-            logger.info(error);
+            logger.info(error.message);
             return res.status(500).json({
               message: "Something went wrong",
               error: error
