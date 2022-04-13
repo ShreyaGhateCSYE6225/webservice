@@ -1,12 +1,13 @@
+const user = require("../controllers/user.js");
+
 module.exports = app => {
-    const user = require("../controllers/user.js");
     const auth = require("../auth/auth")
     const bodyParser = require('body-parser')
     const uploadFileToS3 = require("../../S3Config")
     var router = require("express").Router();
     var verifyRoute = require("express").Router();
 
-    console.log("entering getuser", auth, user.getUser, user.update)
+    console.log("entering getuser", auth, user, user.getUser, user.update)
     // Retrieve an Authenticated User
     router.get("/self", auth, user.getUser);
 
