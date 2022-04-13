@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 const db = require("./app/models");
 
-db.sequelize.sync();
+db.sequelize.sync({ force: true });
 
 app.get("/healthz", (req, res) => {
     logger.info("GET /healthz Call");
