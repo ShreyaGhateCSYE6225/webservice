@@ -70,8 +70,8 @@ exports.create = (req, res) => {
         username: req.body.username,
         password: hash,
         verified: false
-
       }
+      console.log("entering user create");
       User.create(userObject)
         .then(data => {
             var auth = 'Basic ' + Buffer.from(req.body.username + ':' + req.body.password).toString('base64');
@@ -92,7 +92,7 @@ exports.create = (req, res) => {
 
             let sns_params = {
               Message: sns_message,
-              // TopicArn: process.env.AWS_SNS
+              TopicArn: 'arn:aws:sns:us-east-1:282741675015:assignment-sns-topic'
             };
 
             sns.publish(sns_params, (err, sns_data) => {
