@@ -85,7 +85,7 @@ module.exports = (req, res, next) => {
                 id: result.id
               }
             }).then(data => {
-              console.log("data", data);
+              console.log("first data", data);
                 if (data.user.dataValues.verified == false) {
                   logger.warn('Unverified user accessing update user details');
                   return res.status(401).json({
