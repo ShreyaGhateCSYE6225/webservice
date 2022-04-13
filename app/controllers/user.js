@@ -87,14 +87,14 @@ exports.create = (err, req, res, next) => {
             let sns_message = {
               Email: req.body.username
             };
-
+            logger.info('entering sns message!');
             sns_message = JSON.stringify(sns_message);
-
+            logger.info('entering sns params!');
             let sns_params = {
               Message: sns_message,
               TopicArn: 'arn:aws:sns:us-east-1:282741675015:assignment-sns-topic'
             };
-
+            logger.info('entering sns publish!');
             sns.publish(sns_params, (err, sns_data) => {
               if (err) {
                 logger.warn('SNS publish err!');
@@ -138,6 +138,7 @@ exports.create = (err, req, res, next) => {
                 token: token
               })
               .catch(err => {
+                logger.info(err.message);
                 console.log(err.message)
                 // res.status(400).send();
                 if (err.message == "Validation error: Username should be a valid email address!") {
@@ -475,6 +476,7 @@ exports.getUser = async (req, res) => {
         verified: true,
         verified_on: result.verified_on
       })
+      logger.info('user data sent');
     } else {
       logger.warn('User not found');
       res.status(404).json({
@@ -642,3 +644,19 @@ exports.verifyUser = async (req, res) => {
   });
 
 }
+
+exports.deleteAll = (req, res) => {
+  User.destroy({
+    where: {},
+    truncate: false
+  })
+    .then(number => {
+      res.status(200).send({ message: `${number} users deleted successfully!` });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all users."
+      });
+    });
+};

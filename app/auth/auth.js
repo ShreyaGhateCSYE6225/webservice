@@ -21,6 +21,7 @@ module.exports = (req, res, next) => {
   var username = auth[0];
   var password = auth[1];
 
+  console.log('username, password', username, password);
   User.findOne({
     where: {
       username
