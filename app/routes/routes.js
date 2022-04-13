@@ -4,11 +4,13 @@ module.exports = app => {
     const bodyParser = require('body-parser')
     const uploadFileToS3 = require("../../S3Config")
     var router = require("express").Router();
-    // var verifyRoute = require("express").Router();
+    var verifyRoute = require("express").Router();
 
+    console.log("entering getuser")
     // Retrieve an Authenticated User
     router.get("/self", auth, user.getUser);
 
+    console.log("entering putuser")
     // Update an Authenticated User
     router.put("/self", auth, user.update);
 
@@ -31,8 +33,8 @@ module.exports = app => {
     //   res.send(200);
     // })
 
-    router.get("/", user.verifyUser);
+    verifyRoute.get("/", user.verifyUser);
 
     app.use("/v1/user", router);
-    app.use("/v1/verifyUserEmail", router)
+    app.use("/v1/verifyUserEmail", verifyRoute)
   };
