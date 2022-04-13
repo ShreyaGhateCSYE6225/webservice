@@ -85,13 +85,14 @@ module.exports = (req, res, next) => {
                 id: result.id
               }
             }).then(data => {
-                if (data.verified == false) {
+              console.log("data", data);
+                if (data.user.dataValues.verified == false) {
                   logger.warn('Unverified user accessing update user details');
                   return res.status(401).json({
                     message: 'Please verify yourself first!'
                   });
                 }
-              console.log("data", data);
+              console.log("second data", data);
               res.status(204).json({
                 message: "User was updated successfully!"
               });
