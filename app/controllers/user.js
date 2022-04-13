@@ -564,7 +564,7 @@ exports.verifyUser = async (req, res) => {
   logger.info("verify process start!");
   //get params form req.url
   let arg = URL.parse(req.url, true).query;
-  logger.info(arg);
+  logger.info(arg.email);
   console.log(arg.username);
   console.log(arg.token);
   console.log(req.username);
@@ -576,7 +576,7 @@ exports.verifyUser = async (req, res) => {
 
   let eParams = {
     Key: {
-      'id': user.username
+      'id': arg.email
     },
     TableName: 'myDynamoDBTable'
   };
