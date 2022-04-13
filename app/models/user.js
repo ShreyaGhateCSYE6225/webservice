@@ -70,7 +70,7 @@
 'use strict';
 module.exports = {
   up: async (sequelize, Sequelize) => {
-    const User =  await sequelize.createTable('user', {
+    await sequelize.createTable('user', {
         id:{
             type: Sequelize.DataTypes.UUID,
             defaultValue: Sequelize.DataTypes.UUIDV4,
