@@ -106,7 +106,7 @@ exports.create = (req, res) => {
 
             console.log("data:", data);
             res.status(201).json({
-                message: "User created successfully!",
+                message: "User created successfully, please verify yourself using the link sent on your email!",
 
                 User: {
                   id: data.id,
@@ -117,7 +117,7 @@ exports.create = (req, res) => {
                   account_updated: data.account_updated,
                   verified: false
                 },
-                // token: token
+                token: token
               })
             })
               .catch(err => {
@@ -590,8 +590,10 @@ exports.verifyUser = async (req, res) => {
         //if don't have this email or token is expired,verified fail 
         if (flag) {
           // check token
+          logger.info(code.Item.token);
+          logger.info(arg.token);
           if (code.Item.token == arg.token) {
-
+            logger.info('Valid Token!');
           } else {
             logger.warn("Invalid Token!");
             return res.status(401).json({
