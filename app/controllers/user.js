@@ -117,7 +117,7 @@ exports.create = (req, res) => {
                   account_updated: data.account_updated,
                   verified: false
                 },
-                token: token
+                // token: token
               })
             })
               .catch(err => {
@@ -205,12 +205,12 @@ exports.findOne = (req, res) => {
 };
 
 // Update a User by the id in the request
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   logger.info("Update User Call");
   sdcclient.increment("Update User");
   let startTime = new Date();
 
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
+  bcrypt.hash(req.body.password, 10, async(err, hash) => {
     console.log("request", req)
     if (err) {
       console.log(err);
@@ -242,6 +242,13 @@ exports.update = (req, res) => {
         });
         return;
       }
+      const user = await this.findUser(global.username)
+        if (user.verified == false) {
+          logger.warn('Unverified user accessing update user details');
+          return res.status(401).json({
+            message: 'Please verify yourself first!'
+          });
+        }
       const userUpdate = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -437,7 +444,7 @@ exports.getUser = async (req, res) => {
     console.log('inside result', result);
     if (result) {
       if (result.verified == false) {
-        logger.warn('Unverified user');
+        logger.warn('Unverified user accessing get user details');
         return res.status(401).json({
           message: 'Please verify yourself first!'
         });
@@ -489,6 +496,12 @@ exports.getProfilePicture = async (req, res) => {
       }
     })
     .then(data => {
+        // if (data.verified == false) {
+        //   logger.warn('Unverified user accessing get profile pic');
+        //   return res.status(401).json({
+        //     message: 'Please verify yourself first!'
+        //   });
+        // }
       const imageData = {
         file_name: data.file_name,
         id: data.id,
@@ -530,6 +543,12 @@ exports.deleteProfilePic = async (req, res) => {
   console.log("Inside delete", result1)
   await deleteFileFromS3(req, res, result)
     .then(data => {
+        // if (data.verified == false) {
+        //   logger.warn('Unverified user accessing delete profile pic');
+        //   return res.status(401).json({
+        //     message: 'Please verify yourself first!'
+        //   });
+        // }
       let endTime = new Date();
       sdcclient.timing(
         "Delete Profile Picture time",
