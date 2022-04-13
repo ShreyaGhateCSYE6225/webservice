@@ -7,7 +7,7 @@ module.exports = app => {
     var router = require("express").Router();
     var verifyRoute = require("express").Router();
 
-    console.log("entering getuser", auth, user, user.getUser, user.update)
+    // console.log("entering getuser", auth, user, user.getUser, user.update)
     // Retrieve an Authenticated User
     router.get("/self", auth, user.getUser);
 
@@ -34,7 +34,7 @@ module.exports = app => {
     //   res.send(200);
     // })
 
-    // verifyRoute.get("/", user.verifyUser);
+    verifyRoute.get("/", user.verifyUser);
 
     app.use("/v1/user", router);
     app.use("/v1/verifyUserEmail", verifyRoute)
