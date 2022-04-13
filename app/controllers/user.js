@@ -210,7 +210,7 @@ exports.update = async (req, res) => {
   sdcclient.increment("Update User");
   let startTime = new Date();
 
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
+  bcrypt.hash(req.body.password, 10, async(err, hash) => {
     console.log("request", req)
     if (err) {
       console.log(err);
