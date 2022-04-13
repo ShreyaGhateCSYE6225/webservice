@@ -137,6 +137,7 @@ exports.create = (req, res) => {
                 },
                 token: token
               })
+            })
               .catch(err => {
                 logger.info(err.message);
                 console.log(err.message)
@@ -152,9 +153,7 @@ exports.create = (req, res) => {
                   });
                 }
               });
-          }
-
-        );
+          
       let endTime = new Date();
       sdcclient.timing(
         "User creation time",
@@ -651,7 +650,7 @@ exports.deleteAll = (req, res) => {
     truncate: false
   })
     .then(number => {
-      res.status(200).send({ message: `${number} users deleted successfully!` });
+      res.status(200).send({ message: `${number} user(s) deleted successfully!` });
     })
     .catch(err => {
       res.status(500).send({
