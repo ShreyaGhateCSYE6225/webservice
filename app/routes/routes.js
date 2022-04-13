@@ -8,7 +8,7 @@ module.exports = app => {
 
     console.log("entering getuser")
     // Retrieve an Authenticated User
-    router.get("/self", auth, user.getUser);
+    // router.get("/self", auth, user.getUser);
 
     console.log("entering putuser")
     // Update an Authenticated User
