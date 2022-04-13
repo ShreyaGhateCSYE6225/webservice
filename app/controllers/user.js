@@ -35,6 +35,7 @@ const dynamoDBTable = new aws.DynamoDB.DocumentClient({
 });
 const jwt = require('jsonwebtoken');
 const sns = new aws.SNS();
+const URL = require('url');
 // sdcclient.increment('GET /healthz');
 
 //Create user if not there already
@@ -563,6 +564,7 @@ exports.verifyUser = async (req, res) => {
   logger.info("verify process start!");
   //get params form req.url
   let arg = URL.parse(req.url, true).query;
+  logger.info(arg);
   console.log(arg.username);
   console.log(arg.token);
   console.log(req.username);
@@ -581,6 +583,7 @@ exports.verifyUser = async (req, res) => {
     verified: true,
     verified_on: (new Date).getTime()
   }
+  logger.info("entering dynamoDBTable get!");
 
   //get item form aws dynamodb table
   dynamoDBTable.get(eParams, function (error, code) {
@@ -618,11 +621,12 @@ exports.verifyUser = async (req, res) => {
               username: global.username
             }
           }).then(() => {
-            logger.info('Verified email address');
+            logger.info('Email address verified!');
             return res.status(200).json({
               message: "Email address verified!"
             });
           }).catch(error => {
+            logger.info(error);
             return res.status(500).json({
               message: "Something went wrong",
               error: error
