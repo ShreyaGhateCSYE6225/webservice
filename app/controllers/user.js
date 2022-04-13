@@ -205,7 +205,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a User by the id in the request
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   logger.info("Update User Call");
   sdcclient.increment("Update User");
   let startTime = new Date();
