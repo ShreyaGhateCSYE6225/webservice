@@ -1,13 +1,17 @@
+const user = require("../controllers/user.js");
+
 module.exports = app => {
-    const user = require("../controllers/user.js");
     const auth = require("../auth/auth")
     const bodyParser = require('body-parser')
     const uploadFileToS3 = require("../../S3Config")
     var router = require("express").Router();
+    var verifyRoute = require("express").Router();
 
+    // console.log("entering getuser", auth, user, user.getUser, user.update)
     // Retrieve an Authenticated User
     router.get("/self", auth, user.getUser);
 
+    console.log("entering putuser")
     // Update an Authenticated User
     router.put("/self", auth, user.update);
 
@@ -26,9 +30,12 @@ module.exports = app => {
     //Delete Profile Picture of an Authenticated User
     router.delete("/self/pic",auth,user.deleteProfilePic);
 
-    router.get("/healthcheck", (req,res) => {
-      res.send(200);
-    })
+    // router.get("/healthcheck", (req,res) => {
+    //   res.send(200);
+    // })
+
+    verifyRoute.get("/", user.verifyUser);
 
     app.use("/v1/user", router);
+    app.use("/v1/verifyUserEmail", verifyRoute)
   };
