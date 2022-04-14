@@ -88,8 +88,9 @@ module.exports = (req, res, next) => {
             }).then(data => {
               console.log("first data", data);
               logger.warn('Unverified user accessing update user details');
-              logger.warn(data);
-                if (data.user.dataValues.verified == false) {
+              logger.warn(JSON.stringify(data));
+              logger.warn(JSON.stringify(data.user));
+                if (data.user.verified == false) {
                   logger.warn('entering verify user when update user details');
                   return res.status(401).json({
                     message: 'Please verify yourself first!'
