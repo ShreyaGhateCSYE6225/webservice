@@ -243,6 +243,8 @@ exports.update = async (req, res) => {
         return;
       }
       const user = await this.findUser(global.username)
+      logger.warn(user);
+      console.log('update user', user);
         if (user.verified == false) {
           logger.warn('Unverified user accessing update user details');
           return res.status(401).json({

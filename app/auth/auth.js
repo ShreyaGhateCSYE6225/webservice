@@ -54,56 +54,58 @@ module.exports = (req, res, next) => {
         next();
       }
       else if (req.method === 'PUT') {
-        console.log(req.body);
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
-          if (err) {
-            console.log("error", err)
-            res.status(400).send();
-          } else {
-            const id = result.id;
-            console.log("id", id)
+        global.username=result.username;
+        next();
+        // console.log(req.body);
+        // bcrypt.hash(req.body.password, 10, (err, hash) => {
+        //   if (err) {
+        //     console.log("error", err)
+        //     res.status(400).send();
+        //   } else {
+        //     const id = result.id;
+        //     console.log("id", id)
 
-            if (req.body.username) {
-              res.status(400).send("username cannot be updated");
-              return;
-            }
-            if (req.body.account_created) {
-              res.status(400).send("account_created field cannot be updated");
-              return;
-            }
-            if (req.body.account_updated) {
-              res.status(400).send("account_updated field cannot be updated");
-              return;
-            }
-            const userUpdate = {
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
-              username: req.body.username,
-              password: hash
-            }
-            User.update(userUpdate, {
-              where: {
-                id: result.id
-              }
-            }).then(data => {
-              console.log("first data", data);
-              logger.warn('Unverified user accessing update user details');
-              logger.warn(JSON.stringify(data));
-              logger.warn(JSON.stringify(data.user));
-                if (data.user.verified == false) {
-                  logger.warn('entering verify user when update user details');
-                  return res.status(401).json({
-                    message: 'Please verify yourself first!'
-                  });
-                }
-                logger.warn('Unverified user access denied');
-              console.log("second data", data);
-              res.status(204).json({
-                message: "User was updated successfully!"
-              });
-            })
-          }
-        })
+        //     if (req.body.username) {
+        //       res.status(400).send("username cannot be updated");
+        //       return;
+        //     }
+        //     if (req.body.account_created) {
+        //       res.status(400).send("account_created field cannot be updated");
+        //       return;
+        //     }
+        //     if (req.body.account_updated) {
+        //       res.status(400).send("account_updated field cannot be updated");
+        //       return;
+        //     }
+        //     const userUpdate = {
+        //       first_name: req.body.first_name,
+        //       last_name: req.body.last_name,
+        //       username: req.body.username,
+        //       password: hash
+        //     }
+        //     User.update(userUpdate, {
+        //       where: {
+        //         id: result.id
+        //       }
+        //     }).then(data => {
+        //       console.log("first data", data);
+        //       logger.warn('Unverified user accessing update user details');
+        //       logger.warn(JSON.stringify(data));
+        //       logger.warn(JSON.stringify(data.user));
+        //         if (data.user.verified == false) {
+        //           logger.warn('entering verify user when update user details');
+        //           return res.status(401).json({
+        //             message: 'Please verify yourself first!'
+        //           });
+        //         }
+        //         logger.warn('Unverified user access denied');
+        //       console.log("second data", data);
+        //       res.status(204).json({
+        //         message: "User was updated successfully!"
+        //       });
+        //     })
+        //   }
+        // })
       }
     }
   })
