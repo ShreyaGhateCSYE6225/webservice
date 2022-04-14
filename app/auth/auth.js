@@ -95,8 +95,6 @@ module.exports = (req, res, next) => {
                     message: 'Please verify yourself first!'
                   });
                 }
-                logger.warn('Unverified user access denied');
-              console.log("second data", data);
               res.status(204).json({
                 message: "User was updated successfully!"
               });

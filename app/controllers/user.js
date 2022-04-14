@@ -593,7 +593,11 @@ exports.verifyUser = async (req, res) => {
     verified_on: (new Date).getTime()
   }
   logger.info("entering dynamoDBTable get!");
-
+  let user = await User.findOne({
+    where: {
+      username: global.username
+    }
+  });
   //get item form aws dynamodb table
   dynamoDBTable.get(eParams, function (error, code) {
     var jsString = JSON.stringify(code);
@@ -611,9 +615,6 @@ exports.verifyUser = async (req, res) => {
           flag = false;
         }
 
-
-        // if have this email in table and token is not expire,set verified true
-        //if don't have this email or token is expired,verified fail 
         if (flag) {
           // check token
           logger.info(code.Item.token);
@@ -633,12 +634,13 @@ exports.verifyUser = async (req, res) => {
             where: {
               username: arg.email
             }
-
+            
           }).then(data => {
             logger.info('Email address verified!');
             return res.status(200).json({
               message: "You are now a verified user!"
             });
+            
           }).catch(error => {
             logger.info(error.message);
             return res.status(500).json({
@@ -652,6 +654,14 @@ exports.verifyUser = async (req, res) => {
           return res.status(401).json({
             message: "Invalid email address or token is expired, try again!"
           });
+        } 
+        if (user) {
+          if (user.verified == true) {
+            logger.warn('Already verified user!');
+            return res.status(401).json({
+              message: 'You are already verified!'
+            });
+          }
         }
 
       }
