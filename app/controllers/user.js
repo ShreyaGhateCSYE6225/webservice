@@ -510,7 +510,7 @@ exports.getProfilePicture = async (req, res) => {
         user_id: result.id
       }
     })
-    .then(() => {
+    .then((data) => {
         if (result.verified == false) {
           logger.warn('Unverified user accessing get profile pic');
           return res.status(401).json({
