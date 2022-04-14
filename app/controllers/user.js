@@ -533,6 +533,7 @@ exports.getProfilePicture = async (req, res) => {
     })
     .catch(err => {
       console.log(err)
+      logger.info(err);
       res.status(404).send({
         message: "This user does not have a profile picture set!"
       })
