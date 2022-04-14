@@ -217,10 +217,10 @@ exports.update = async (req, res) => {
       res.status(400).json({
         message: "Provide the user ID to update"
       });
-    } else if (req.params.id == null) {
-      res.status(400).json({
-        message: "Provide the user ID to update"
-      })
+    // } else if (req.params.id == null) {
+    //   res.status(400).json({
+    //     message: "Provide the user ID to update"
+    //   })
     } else {
       const id = req.params.id;
       console.log("id", id)
