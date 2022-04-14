@@ -504,7 +504,6 @@ exports.getProfilePicture = async (req, res) => {
       username: global.username
     }
   });
-  // console.log("UserData", req)
   const result1 = await Image.findOne({
       where: {
         user_id: result.id
@@ -651,7 +650,6 @@ exports.verifyUser = async (req, res) => {
           });
         } else {
           logger.info('Invalid email address or token is expired');
-          //console.log("Invalid email address or token is expired");
           return res.status(401).json({
             message: "Invalid email address or token is expired, try again!"
           });
