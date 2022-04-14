@@ -330,6 +330,7 @@ exports.upload = async (req, res) => {
   logger.info("Upload Image Call");
   sdcclient.increment("Upload Image");
   let startTime = new Date();
+  
   bodyParser.raw({
       type: ["image/jpeg", "image/png", "image/jpg"],
       limit: "3mb"
@@ -345,7 +346,7 @@ exports.upload = async (req, res) => {
     // var file_name=req.files.upload.name;
     console.log("file name", req);
     const userData = await this.findUser(global.username)
-
+    
     const result = await uploadFileToS3(req, res, userData);
     const imageObj = {
       file_name: result.Key,
@@ -357,7 +358,19 @@ exports.upload = async (req, res) => {
     const location = result.Location
     const id = JSON.parse(result.ETag)
     const imageOutput = await this.createImage(req, res, location)
-
+    let user = await User.findOne({
+      where: {
+        username: global.username
+      }
+    });
+    if (user) {
+      if (user.verified == false) {
+        logger.warn('Unverified user accessing upload image');
+        return res.status(401).json({
+          message: 'Please verify yourself first!'
+        });
+      }
+    }
     res.status(201).send(
       // message: "Profile picture added",
       imageOutput
@@ -497,13 +510,13 @@ exports.getProfilePicture = async (req, res) => {
         user_id: result.id
       }
     })
-    .then(data => {
-        // if (data.verified == false) {
-        //   logger.warn('Unverified user accessing get profile pic');
-        //   return res.status(401).json({
-        //     message: 'Please verify yourself first!'
-        //   });
-        // }
+    .then(() => {
+        if (result.verified == false) {
+          logger.warn('Unverified user accessing get profile pic');
+          return res.status(401).json({
+            message: 'Please verify yourself first!'
+          });
+        }
       const imageData = {
         file_name: data.file_name,
         id: data.id,
@@ -544,13 +557,13 @@ exports.deleteProfilePic = async (req, res) => {
   });
   console.log("Inside delete", result1)
   await deleteFileFromS3(req, res, result)
-    .then(data => {
-        // if (data.verified == false) {
-        //   logger.warn('Unverified user accessing delete profile pic');
-        //   return res.status(401).json({
-        //     message: 'Please verify yourself first!'
-        //   });
-        // }
+    .then(() => {
+        if (result.verified == false) {
+          logger.warn('Unverified user accessing delete profile pic');
+          return res.status(401).json({
+            message: 'Please verify yourself first!'
+          });
+        }
       let endTime = new Date();
       sdcclient.timing(
         "Delete Profile Picture time",
@@ -567,14 +580,6 @@ exports.verifyUser = async (req, res) => {
   //get params form req.url
   let arg = URL.parse(req.url, true).query;
   logger.info(arg.email);
-  // console.log(arg.username);
-  // console.log(arg.token);
-  // console.log(req.username);
-  // console.log(req.token);
-
-  // const user = await this.findUser(arg.email)
-  // logger.info(user);
-  // logger.info(user.username);
 
   let eParams = {
     Key: {
@@ -641,8 +646,6 @@ exports.verifyUser = async (req, res) => {
               error: error.message
             });
           });
-
-
         } else {
           logger.info('Invalid email address or token is expired');
           //console.log("Invalid email address or token is expired");
