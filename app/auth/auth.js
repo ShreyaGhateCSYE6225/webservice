@@ -3,6 +3,7 @@ const db = require("../models");
 const multer = require('multer');
 const User = db.users;
 const Image = db.images;
+const logger = require('../config/logger');
 
 module.exports = (req, res, next) => {
   var authHeader = req.headers.authorization;
@@ -86,12 +87,15 @@ module.exports = (req, res, next) => {
               }
             }).then(data => {
               console.log("first data", data);
+              logger.warn('Unverified user accessing update user details');
+              logger.warn(data);
                 if (data.user.dataValues.verified == false) {
-                  logger.warn('Unverified user accessing update user details');
+                  logger.warn('entering verify user when update user details');
                   return res.status(401).json({
                     message: 'Please verify yourself first!'
                   });
                 }
+                logger.warn('Unverified user access denied');
               console.log("second data", data);
               res.status(204).json({
                 message: "User was updated successfully!"
