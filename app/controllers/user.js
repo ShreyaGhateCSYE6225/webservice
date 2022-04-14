@@ -217,10 +217,10 @@ exports.update = async (req, res) => {
       res.status(400).json({
         message: "Provide the user ID to update"
       });
-    // } else if (req.params.id == null) {
-    //   res.status(400).json({
-    //     message: "Provide the user ID to update"
-    //   })
+    } else if (req.params.id == null) {
+      res.status(400).json({
+        message: "Provide the user ID to update"
+      })
     } else {
       const id = req.params.id;
       console.log("id", id)
@@ -243,7 +243,7 @@ exports.update = async (req, res) => {
         return;
       }
       const user = await this.findUser(global.username)
-      logger.warn(user);
+      logger.warn('Unverified user accessing update user details');
       console.log('update user', user);
         if (user.verified == false) {
           logger.warn('Unverified user accessing update user details');
