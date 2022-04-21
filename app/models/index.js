@@ -10,10 +10,15 @@ const sequelize = new Sequelize(dbconfigCreds.DB, dbconfigCreds.USER, dbconfigCr
     host: dbconfigCreds.HOST,
     port: dbconfigCreds.PORT,
     dialect: dbconfigCreds.dialect,
-    ssl: {
-        rejectUnauthorized: true,
-        ca: [RDSCA]
-},
+    dialectOptions: {
+        useUTC: false, 
+        dateStrings: true,
+        typeCast: true,
+        ssl: {
+            rejectUnauthorized: true,
+            ca: [RDSCA]
+        },
+    },
     operatorAliases: false
 });
 
