@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 import fs from 'fs';
 
 const __dirname = null;
-const RDSCA = fs.readFileSync(process.env.PWD+'/api/models/us-east-1-bundle.pem');
+const RDSCA = fs.readFileSync(process.env.PWD+'/app/models/us-east-1-bundle.pem');
 const sequelize = new Sequelize(dbconfigCreds.DB, dbconfigCreds.USER, dbconfigCreds.PASSWORD, {
     host: dbconfigCreds.HOST,
     port: dbconfigCreds.PORT,
