@@ -10,7 +10,7 @@ const sequelize = new Sequelize(dbconfigCreds.DB, dbconfigCreds.USER, dbconfigCr
     port: dbconfigCreds.PORT,
     dialect: dbconfigCreds.dialect,
     ssl: {
-        rejectUnauthorized: true,
+        // rejectUnauthorized: true,
         ca: [RDSCA]
 },
     operatorAliases: false
