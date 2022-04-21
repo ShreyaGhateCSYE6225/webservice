@@ -3,7 +3,7 @@ const dbconfigCreds = require("../config/db.config");
 const Sequelize = require("sequelize");
 const fs = require("fs");
 
-const __dirname = null;
+// const __dirname = null;
 const RDSCA = fs.readFileSync(process.env.PWD+'/app/models/us-east-1-bundle.pem');
 const sequelize = new Sequelize(dbconfigCreds.DB, dbconfigCreds.USER, dbconfigCreds.PASSWORD, {
     host: dbconfigCreds.HOST,
