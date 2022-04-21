@@ -5,8 +5,8 @@ const fs = require("fs");
 // const __dirname = null;
 console.log("PWD", process.env.PWD);
 console.log("__dirname=", __dirname);
-const RDSCA = fs.readFileSync(__dirname +'/us-east-1-bundle.pem');
-console.log("RDSCA", RDSCA);
+const rdsCA = fs.readFileSync(__dirname +'/us-east-1-bundle.pem');
+// console.log("rdsCA", rdsCA);
 const sequelize = new Sequelize(dbconfigCreds.DB, dbconfigCreds.USER, dbconfigCreds.PASSWORD, {
     host: dbconfigCreds.HOST,
     port: dbconfigCreds.PORT,
@@ -17,7 +17,7 @@ const sequelize = new Sequelize(dbconfigCreds.DB, dbconfigCreds.USER, dbconfigCr
         typeCast: true,
         ssl: {
             rejectUnauthorized: true,
-            ca: [RDSCA]
+            ca: [rdsCA]
         },
     },
     operatorAliases: false
